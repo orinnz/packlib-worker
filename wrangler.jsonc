@@ -2,10 +2,10 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "packlib-worker",
   "main": "src/index.ts",
-  "compatibility_date": "2026-01-29"
-  // "compatibility_flags": [
-  //   "nodejs_compat"
-  // ],
+  "compatibility_date": "2026-01-29",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   // "vars": {
   //   "MY_VAR": "my-variable"
   // },
@@ -21,13 +21,13 @@
   //     "bucket_name": "my-bucket"
   //   }
   // ],
-  // "d1_databases": [
-  //   {
-  //     "binding": "MY_DB",
-  //     "database_name": "my-database",
-  //     "database_id": ""
-  //   }
-  // ],
+  "d1_databases": [
+ {
+      "binding": "my_d1_database",
+      "database_name": "my-d1-database",
+      "database_id": "936f67f2-66fe-4808-b208-1982f698d693"
+    }
+  ],
   // "ai": {
   //   "binding": "AI"
   // },
