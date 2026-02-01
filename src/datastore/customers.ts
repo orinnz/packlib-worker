@@ -1,45 +1,31 @@
 // D1Database type is globally available from worker-configuration.d.ts
+import type { Customer, CreateCustomerInput } from '../models/customer'
 
-export interface Customer {
-  CustomerId: number
-  CompanyName: string
-  ContactName: string
+export async function findAllCustomers(db: D1Database): Promise<Customer[]> {
+  const { results } = await db
+    .prepare('SELECT * FROM Customers')
+    .all<Customer>()
+  return results
 }
 
-export interface CreateCustomerInput {
-  companyName: string
-  contactName: string
+export async function findCustomerById(db: D1Database, id: number): Promise<Customer | null> {
+  const customer = await db
+    .prepare('SELECT * FROM Customers WHERE CustomerId = ?')
+    .bind(id)
+    .first<Customer>()
+  return customer
 }
 
-export class CustomerDatastore {
-  constructor(private db: D1Database) {}
+export async function insertCustomer(db: D1Database, input: CreateCustomerInput): Promise<void> {
+  await db
+    .prepare('INSERT INTO Customers (CompanyName, ContactName) VALUES (?, ?)')
+    .bind(input.companyName, input.contactName)
+    .run()
+}
 
-  async getAll(): Promise<Customer[]> {
-    const { results } = await this.db
-      .prepare('SELECT * FROM Customers')
-      .all<Customer>()
-    return results
-  }
-
-  async getById(id: number): Promise<Customer | null> {
-    const customer = await this.db
-      .prepare('SELECT * FROM Customers WHERE CustomerId = ?')
-      .bind(id)
-      .first<Customer>()
-    return customer
-  }
-
-  async create(input: CreateCustomerInput): Promise<void> {
-    await this.db
-      .prepare('INSERT INTO Customers (CompanyName, ContactName) VALUES (?, ?)')
-      .bind(input.companyName, input.contactName)
-      .run()
-  }
-
-  async getCount(): Promise<number> {
-    const result = await this.db
-      .prepare('SELECT COUNT(*) as total FROM Customers')
-      .first<{ total: number }>()
-    return result?.total ?? 0
-  }
+export async function countCustomers(db: D1Database): Promise<number> {
+  const result = await db
+    .prepare('SELECT COUNT(*) as total FROM Customers')
+    .first<{ total: number }>()
+  return result?.total ?? 0
 }

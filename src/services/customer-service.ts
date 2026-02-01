@@ -1,25 +1,27 @@
-import type { CustomerDatastore, CreateCustomerInput, Customer } from '../datastore/customers'
+import type { Customer, CreateCustomerInput } from '../models/customer'
+import { 
+  findAllCustomers,
+  findCustomerById,
+  insertCustomer,
+  countCustomers
+} from '../datastore/customers'
 
-export class CustomerService {
-  constructor(private datastore: CustomerDatastore) {}
+export async function getAllCustomers(db: D1Database): Promise<Customer[]> {
+  return findAllCustomers(db)
+}
 
-  async getAllCustomers(): Promise<Customer[]> {
-    return this.datastore.getAll()
+export async function getCustomerById(db: D1Database, id: number): Promise<Customer | null> {
+  return findCustomerById(db, id)
+}
+
+export async function createCustomer(db: D1Database, input: CreateCustomerInput): Promise<void> {
+  if (!input.companyName || !input.contactName) {
+    throw new Error('companyName and contactName are required')
   }
+  await insertCustomer(db, input)
+}
 
-  async getCustomerById(id: number): Promise<Customer | null> {
-    return this.datastore.getById(id)
-  }
-
-  async createCustomer(input: CreateCustomerInput): Promise<void> {
-    if (!input.companyName || !input.contactName) {
-      throw new Error('companyName and contactName are required')
-    }
-    await this.datastore.create(input)
-  }
-
-  async getCustomerStats(): Promise<{ totalCustomers: number }> {
-    const total = await this.datastore.getCount()
-    return { totalCustomers: total }
-  }
+export async function getCustomerStats(db: D1Database): Promise<{ totalCustomers: number }> {
+  const total = await countCustomers(db)
+  return { totalCustomers: total }
 }
