@@ -1,38 +1,42 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "packlib-worker",
-  "main": "src/index.ts",
-  "compatibility_date": "2026-01-29",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
-  // "vars": {
-  //   "MY_VAR": "my-variable"
-  // },
-  // "kv_namespaces": [
-  //   {
-  //     "binding": "MY_KV_NAMESPACE",
-  //     "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  //   }
-  // ],
-  // "r2_buckets": [
-  //   {
-  //     "binding": "MY_BUCKET",
-  //     "bucket_name": "my-bucket"
-  //   }
-  // ],
-  "d1_databases": [
- {
-      "binding": "my_d1_database",
-      "database_name": "my-d1-database",
-      "database_id": "936f67f2-66fe-4808-b208-1982f698d693"
-    }
-  ],
-  // "ai": {
-  //   "binding": "AI"
-  // },
-  // "observability": {
-  //   "enabled": true,
-  //   "head_sampling_rate": 1
-  // }
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "packlib-worker",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-01-29",
+	"compatibility_flags": ["nodejs_compat"],
+	// "vars": {
+	//   "MY_VAR": "my-variable"
+	// },
+	// "kv_namespaces": [
+	//   {
+	//     "binding": "MY_KV_NAMESPACE",
+	//     "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+	//   }
+	// ],
+	// "r2_buckets": [
+	//   {
+	//     "binding": "MY_BUCKET",
+	//     "bucket_name": "my-bucket"
+	//   }
+	// ],
+	"d1_databases": [
+		{
+			"binding": "my_d1_database",
+			"database_name": "my-d1-database",
+			"database_id": "936f67f2-66fe-4808-b208-1982f698d693"
+		},
+		{
+			"migrations_dir": "migrations",
+			"binding": "packlib_d1",
+			"database_name": "packlib_d1",
+			"database_id": "0f0bcefe-0a06-4f59-bc30-01c043dab965"
+		}
+	]
+	// "ai": {
+	//   "binding": "AI"
+	// },
+	// "observability": {
+	//   "enabled": true,
+	//   "head_sampling_rate": 1
+	// }
 }
