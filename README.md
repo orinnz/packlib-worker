@@ -20,3 +20,6 @@ Pass the `CloudflareBindings` as generics when instantiation `Hono`:
 const app = new Hono<{ Bindings: CloudflareBindings }>()
 ```
 # packlib-worker
+
+
+### KIP - just kip it
