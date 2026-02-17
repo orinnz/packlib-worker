@@ -1,10 +1,10 @@
 export interface Customer {
-  CustomerId: number
-  CompanyName: string
-  ContactName: string
+  CustomerId: number;
+  CompanyName: string;
+  ContactName: string;
 }
 
 export interface CreateCustomerInput {
-  companyName: string
-  contactName: string
+  companyName: string;
+  contactName: string;
 }
