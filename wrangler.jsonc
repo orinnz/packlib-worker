@@ -31,7 +31,7 @@
 			"database_name": "packlib_d1",
 			"database_id": "0f0bcefe-0a06-4f59-bc30-01c043dab965"
 		}
-	]
+	],
 	// "ai": {
 	//   "binding": "AI"
 	// },
@@ -39,4 +39,7 @@
 	//   "enabled": true,
 	//   "head_sampling_rate": 1
 	// }
+	"vars": {
+		"GSI_ID": "642719044360-s88cnep5cmddf9blrdcfjmsnf9mibckc.apps.googleusercontent.com",
+	}
 }

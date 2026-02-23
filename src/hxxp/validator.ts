@@ -68,3 +68,15 @@ export const validate = <
 
     return out;
   });
+
+
+export function validateOrThrow<T extends Type>(schema: T, value: unknown): T["infer"] {
+  const out = schema(value);
+
+  const hasErrors = out instanceof type.errors;
+  if (!hasErrors) {
+    return out;
+  }
+
+  throw new AppError("Validation", out.map((err) => err.toString()).join("\n"));
+}

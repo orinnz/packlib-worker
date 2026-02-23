@@ -43,3 +43,11 @@ export interface ArticleTagsTable extends BaseTable {
   article_id: UUID;
   tag_id: UUID;
 }
+
+
+export function initDB_D1(env: Env) {
+  if (!env.packlib_d1) {
+    throw new Error("D1 database binding is missing");
+  }
+  return env.packlib_d1; // Return the native D1 database binding
+}
