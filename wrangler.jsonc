@@ -21,11 +21,6 @@
 	// ],
 	"d1_databases": [
 		{
-			"binding": "my_d1_database",
-			"database_name": "my-d1-database",
-			"database_id": "936f67f2-66fe-4808-b208-1982f698d693"
-		},
-		{
 			"migrations_dir": "migrations",
 			"binding": "packlib_d1",
 			"database_name": "packlib_d1",
