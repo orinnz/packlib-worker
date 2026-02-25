@@ -16,7 +16,10 @@ export interface BaseTable {
 
 export interface UsersTable extends BaseTable {
   username: string;
+  password: string;
 }
+
+export type CreateUserInput = Pick<UsersTable, "username" | "password">;
 
 export interface ProfileTable extends BaseTable {
   user_id: UUID;
@@ -43,7 +46,6 @@ export interface ArticleTagsTable extends BaseTable {
   article_id: UUID;
   tag_id: UUID;
 }
-
 
 export function initDB_D1(env: Env) {
   if (!env.packlib_d1) {
