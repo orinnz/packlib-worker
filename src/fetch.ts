@@ -11,3 +11,9 @@ export type AppContext = {
     d1?: ReturnType<typeof initDB_D1>;
   };
 };
+
+declare module "hono" {
+  interface ExecutionContext {
+    readonly exports: Cloudflare.Exports;
+  }
+}
