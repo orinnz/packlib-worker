@@ -8,6 +8,8 @@
     "lint": "pnpm biome check",
     "lint:fix": "pnpm biome check --write",
     "codegen": "kysely-codegen",
+    "migration:create": "npx wrangler d1 migrations create",
+    "migration:apply": "npx wrangler d1 migrations apply",
     "test": "vitest",
     "type-check": "tsc --noEmit"
   },
