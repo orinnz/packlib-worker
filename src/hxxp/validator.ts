@@ -69,7 +69,6 @@ export const validate = <
     return out;
   });
 
-
 export function validateOrThrow<T extends Type>(schema: T, value: unknown): T["infer"] {
   const out = schema(value);
 

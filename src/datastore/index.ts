@@ -15,11 +15,15 @@ export interface BaseTable {
 }
 
 export interface UsersTable extends BaseTable {
+  email: string;
   username: string;
-  password: string;
+  role: "user" | "admin";
+  full_name: string;
+  email_verified_at?: string;
+  avatar_url?: string;
 }
 
-export type CreateUserInput = Pick<UsersTable, "username" | "password">;
+export type CreateUserInput = Omit<UsersTable, "created_at" | "updated_at">;
 
 export interface ProfileTable extends BaseTable {
   user_id: UUID;

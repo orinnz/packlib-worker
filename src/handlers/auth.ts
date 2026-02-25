@@ -1,16 +1,18 @@
+import type { UUID } from "node:crypto";
 import { type } from "arktype";
 import { Hono } from "hono";
-import type { AppContext } from "../fetch";
-import { validate, validateOrThrow } from "../hxxp/validator";
-import { sign, verifyWithJwks } from "hono/jwt";
-import { AppError } from "../hxxp/error";
 import { getConnInfo } from "hono/cloudflare-workers";
+import { sign, verifyWithJwks } from "hono/jwt";
+import type { AppContext } from "../fetch";
+import { AppError } from "../hxxp/error";
+import { validate, validateOrThrow } from "../hxxp/validator";
+import { generateJWTPayload } from "../services/user";
 
 const app = new Hono<AppContext>();
 
 const schemaLoginWithGoogle = type({
-    id_token: "string > 0"
-})
+  id_token: "string > 0",
+});
 
 export const schemaIDTokenGoogle = type({
   aud: "string",
@@ -21,7 +23,6 @@ export const schemaIDTokenGoogle = type({
   jti: "string",
   picture: "string?",
 });
-
 
 app.post("/google", validate("json", schemaLoginWithGoogle), async (c) => {
   const body = c.req.valid("json");
@@ -65,10 +66,13 @@ app.post("/google", validate("json", schemaLoginWithGoogle), async (c) => {
   const info = getConnInfo(c);
 
   console.log("info");
-  
 
-//   const payload = generateJWTPayload(user);
-//   const signature = await sign(payload, c.env.JWT_PRIVATE_KEY, "EdDSA");
+  const payload = generateJWTPayload({
+    id: idToken.sub as UUID,
+    username: idToken.email,
+    full_name: idToken.name,
+  });
+  //   const signature = await sign(payload, c.env.JWT_PRIVATE_KEY, "EdDSA");
 
   return c.json({
     data: {
