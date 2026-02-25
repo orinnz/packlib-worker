@@ -68,3 +68,17 @@ export function generateJWTPayload(user: Pick<UsersTable, "id" | "username" | "f
     username: user.username,
   };
 }
+
+export async function signInOrSignUpWithGoogle(
+  ctx: ExecutionContext,
+  env: Env,
+  di: D1Database,
+  idToken: typeof schemaIDTokenGoogle.infer,
+  metadata: Record<string, unknown>,
+  ip: string | undefined,
+) {
+  const [user, _registering] = await findOrCreateUser(di, idToken);
+  // TODO: user data Durable Object
+
+  return user;
+}

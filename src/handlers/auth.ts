@@ -6,7 +6,7 @@ import { sign, verifyWithJwks } from "hono/jwt";
 import type { AppContext } from "../fetch";
 import { AppError } from "../hxxp/error";
 import { validate, validateOrThrow } from "../hxxp/validator";
-import { generateJWTPayload } from "../services/user";
+import { generateJWTPayload, signInOrSignUpWithGoogle } from "../services/user";
 
 const app = new Hono<AppContext>();
 
@@ -67,16 +67,42 @@ app.post("/google", validate("json", schemaLoginWithGoogle), async (c) => {
 
   console.log("info");
 
-  const payload = generateJWTPayload({
-    id: idToken.sub as UUID,
-    username: idToken.email,
-    full_name: idToken.name,
-  });
-  //   const signature = await sign(payload, c.env.JWT_PRIVATE_KEY, "EdDSA");
+  const user = await signInOrSignUpWithGoogle(
+    c.executionCtx,
+    c.env,
+    d1,
+    idToken,
+    {
+      ua: c.req.header("User-Agent"),
+      device: c.req.header("CF-Device-Type"),
+      asn: c.req.raw.cf?.asn,
+      asOrganization: c.req.raw.cf?.asOrganization,
+      country: c.req.raw.cf?.country,
+      city: c.req.raw.cf?.city,
+      region: c.req.raw.cf?.region,
+      timezone: c.req.raw.cf?.timezone,
+      colo: c.req.raw.cf?.colo,
+      bot_score:
+        typeof c.req.raw.cf?.botManagement === "object" &&
+        c.req.raw.cf?.botManagement !== null &&
+        "score" in c.req.raw.cf.botManagement
+          ? c.req.raw.cf?.botManagement?.score
+          : undefined,
+    },
+    info.remote.address,
+  );
+
+  if (!user) {
+    throw new AppError("Service", "User not found");
+  }
+
+  const payload = generateJWTPayload(user);
+  const signature = await sign(payload, c.env.JWT_PRIVATE_KEY, "EdDSA");
 
   return c.json({
     data: {
-      info,
+      claims: payload,
+      jwt: signature,
     },
   });
 });
