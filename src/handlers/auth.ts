@@ -1,4 +1,3 @@
-import type { UUID } from "node:crypto";
 import { type } from "arktype";
 import { Hono } from "hono";
 import { getConnInfo } from "hono/cloudflare-workers";
