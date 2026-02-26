@@ -12,19 +12,19 @@ app.get("/", (c) => {
 
 // Customer routes - clean and simple!
 app.get("/customers", (c) => {
-  return customerHandler.listCustomers(c, c.env.my_d1_database);
+  return customerHandler.listCustomers(c, c.env.packlib_d1);
 });
 
 app.get("/customer/:id", (c) => {
-  return customerHandler.getCustomer(c, c.env.my_d1_database);
+  return customerHandler.getCustomer(c, c.env.packlib_d1);
 });
 
 app.post("/create-customer", (c) => {
-  return customerHandler.createCustomer(c, c.env.my_d1_database);
+  return customerHandler.createCustomer(c, c.env.packlib_d1);
 });
 
 app.get("/stats", (c) => {
-  return customerHandler.getStats(c, c.env.my_d1_database);
+  return customerHandler.getStats(c, c.env.packlib_d1);
 });
 
 export default app;
