@@ -64,8 +64,6 @@ app.post("/google", validate("json", schemaLoginWithGoogle), async (c) => {
 
   const info = getConnInfo(c);
 
-  console.log("info");
-
   const user = await signInOrSignUpWithGoogle(
     c.executionCtx,
     c.env,
