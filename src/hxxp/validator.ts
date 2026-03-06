@@ -1,5 +1,6 @@
 import { type ArkErrors, type Type, type } from "arktype";
 import type { Context, Env as HonoEnv, MiddlewareHandler, TypedResponse, ValidationTargets } from "hono";
+import { validator } from "hono/validator";
 import { AppError } from "./error";
 
 export type Hook<T, E extends HonoEnv, P extends string, O = unknown> = (
