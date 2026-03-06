@@ -103,3 +103,5 @@ app.post("/google", validate("json", schemaLoginWithGoogle), async (c) => {
     },
   });
 });
+
+export { app as auth };
