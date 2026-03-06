@@ -1,11 +1,12 @@
 import { type } from "arktype";
 import { Hono } from "hono";
 import { getConnInfo } from "hono/cloudflare-workers";
-import { sign, verifyWithJwks } from "hono/jwt";
+import { createMiddleware } from "hono/factory";
+import { type JwtVariables, jwt, sign, verifyWithJwks } from "hono/jwt";
 import type { AppContext } from "../fetch";
 import { AppError } from "../hxxp/error";
 import { validate, validateOrThrow } from "../hxxp/validator";
-import { generateJWTPayload, signInOrSignUpWithGoogle } from "../services/user";
+import { generateJWTPayload, type JWTPayload, signInOrSignUpWithGoogle } from "../services/user";
 
 const app = new Hono<AppContext>();
 
@@ -102,6 +103,20 @@ app.post("/google", validate("json", schemaLoginWithGoogle), async (c) => {
       jwt: signature,
     },
   });
+});
+
+export const middlewareJWT = createMiddleware<AppContext & { Variables: JwtVariables<JWTPayload> }>(async (c, next) => {
+  const jwtMiddleware = jwt({
+    secret: c.env.JWT_PRIVATE_KEY,
+    alg: "EdDSA",
+    verification: {
+      iss: "packlib",
+      iat: true,
+      exp: true,
+      nbf: true,
+    },
+  });
+  return jwtMiddleware(c, next);
 });
 
 export { app as auth };
