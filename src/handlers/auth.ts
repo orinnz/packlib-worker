@@ -24,6 +24,11 @@ export const schemaIDTokenGoogle = type({
   picture: "string?",
 });
 
+app.get("/me", async (c) => {
+  const user = c.get("d1");
+  return c.json({ data: { user } });
+});
+
 app.post("/google", validate("json", schemaLoginWithGoogle), async (c) => {
   const body = c.req.valid("json");
 

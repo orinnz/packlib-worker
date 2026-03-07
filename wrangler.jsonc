@@ -36,6 +36,6 @@
 	// }
 	"vars": {
 		"GSI_ID": "642719044360-s88cnep5cmddf9blrdcfjmsnf9mibckc.apps.googleusercontent.com",
-		"JWT_PRIVATE_KEY": "anhphuocthatladeptrai"
+		"JWT_PRIVATE_KEY": "-----BEGIN PRIVATE KEY-----\nMC4CAQAwBQYDK2VwBCIEIFkLkP/92KsJce7rIbRDPg42YN21oFj6jNMcSEWbbNPS\n-----END PRIVATE KEY-----"
 	}
 }

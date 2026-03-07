@@ -28,7 +28,7 @@ export async function upsertUser(db: D1Database, input: CreateUserInput) {
       `INSERT INTO users (id, email, username, role ,full_name, email_verified_at, avatar_url)
        VALUES (?, ?, ?, ?, ?, ?, ?)
        ON CONFLICT (email) DO UPDATE SET
-         name = excluded.name,
+         full_name = excluded.full_name,
          email_verified_at = CASE
            WHEN users.email_verified_at IS NULL THEN excluded.email_verified_at
            ELSE users.email_verified_at
@@ -36,6 +36,6 @@ export async function upsertUser(db: D1Database, input: CreateUserInput) {
          updated_at = strftime('%Y-%m-%dT%H:%M:%fZ', 'now')
        RETURNING *`,
     )
-    .bind(input.id, input.email, input.username, input.role, input.full_name, input.avatar_url)
+    .bind(input.id, input.email, input.username, input.role, input.full_name, input.email_verified_at, input.avatar_url)
     .first<UsersTable>();
 }

@@ -38,10 +38,10 @@ app.use(async (c, next) => {
   await next();
 });
 
+app.route("/api/auth", auth);
 app.get("/ping", (c) => {
   return c.text("pong");
 });
 
-app.route("/auth/*", auth);
 
 export { app };
