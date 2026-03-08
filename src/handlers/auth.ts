@@ -64,9 +64,6 @@ app.post("/google", validate("json", schemaLoginWithGoogle), async (c) => {
   }
 
   const d1 = c.get("d1");
-  if (!d1) {
-    throw new AppError("Service", "No database connection");
-  }
 
   const info = getConnInfo(c);
 
