@@ -1,7 +1,7 @@
 import { Hono } from "hono";
+import { findUserById } from "../datastore/users";
 import type { AppContext } from "../fetch";
 import { middlewareJWT } from "./auth";
-import { findUserById } from "../datastore/users";
 
 const app = new Hono<AppContext>();
 

@@ -3,6 +3,7 @@ import { cors } from "hono/cors";
 import { initDB_D1 } from "./datastore";
 import { auth } from "./handlers/auth";
 import { user } from "./handlers/user";
+import { articles } from "./handlers/articles";
 
 export type AppContext = {
   Bindings: Env;
@@ -40,10 +41,10 @@ app.use(async (c, next) => {
 });
 
 app.route("/api/auth", auth);
-app.route("/api/user", user)
+app.route("/api/user", user);
+app.route("/api/articles", articles);
 app.get("/ping", (c) => {
   return c.text("pong");
 });
-
 
 export { app };
